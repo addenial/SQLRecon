@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data.SqlClient;
 
 namespace SQLRecon.Modules
@@ -28,6 +28,13 @@ namespace SQLRecon.Modules
         {
             string sqlOutput = "";
             sqlOutput = sqlQuery.ExecuteQuery(con, "EXECUTE AS LOGIN = '" + impersonate + "';SELECT IS_SRVROLEMEMBER('" + role + "');");
+            RoleResult(role, sqlOutput);
+        }
+
+        public void YImpersonate(SqlConnection con, String role)
+        {
+            string sqlOutput = "";
+            sqlOutput = sqlQuery.ExecuteQuery(con, "use msdb; EXECUTE AS USER = 'dbo'; SELECT IS_SRVROLEMEMBER('" + role + "');");
             RoleResult(role, sqlOutput);
         }
 
