@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using SQLRecon.Modules;
@@ -914,14 +914,59 @@ namespace SQLRecon.Auth
             // iwhoami
             else if (module.Equals("iwhoami"))
             {
+
+                Console.Out.WriteLine("\n[+] Origin-~ logged in as: " + sqlQuery.ExecuteQuery(con, "SELECT SYSTEM_USER;"));
+                Console.Out.WriteLine("\n[+] Origin-~ Mapped to the user: " + sqlQuery.ExecuteQuery(con, "SELECT USER_NAME(); "));
+
+                Console.Out.WriteLine("\n[+] Origin-~ Roles: ");
+                Roles Roles = new Roles();
+                Roles.Server(con, "public");
+                Roles.Server(con, "sysadmin");
+
                 Console.Out.WriteLine("\n[+] Logged in as: " + sqlQuery.ExecuteQuery(con, "EXECUTE AS LOGIN = '" + impersonate + "'; SELECT SYSTEM_USER;"));
                 Console.Out.WriteLine("\n[+] Mapped to the user: " + sqlQuery.ExecuteQuery(con, "EXECUTE AS LOGIN = '" + impersonate + "';SELECT USER_NAME();"));
 
                 Console.Out.WriteLine("\n[+] Roles: ");
-                Roles Roles = new Roles();
+                //Roles Roles = new Roles();
                 Roles.Impersonate(con, "public", impersonate);
                 Roles.Impersonate(con, "sysadmin", impersonate);
             }
+
+            // xiwhoami - ~ 
+            else if (module.Equals("xiwhoami"))
+            {
+
+                Console.Out.WriteLine("\n[+] Origin-~ logged in as: " + sqlQuery.ExecuteQuery(con, "SELECT SYSTEM_USER;"));
+                Console.Out.WriteLine("\n[+] Origin-~ Mapped to the user: " + sqlQuery.ExecuteQuery(con, "SELECT USER_NAME(); "));
+
+                Console.Out.WriteLine("\n[+] Origin-~ Roles: ");
+                Roles Roles = new Roles();
+                Roles.Server(con, "public");
+                Roles.Server(con, "sysadmin");
+
+
+                // Console.Out.WriteLine("\n[+] Logged in as: " + sqlQuery.ExecuteQuery(con, "EXECUTE AS LOGIN = '" + impersonate + "'; SELECT SYSTEM_USER;"));
+                // Console.Out.WriteLine("\n[+] Mapped to the user: " + sqlQuery.ExecuteQuery(con, "EXECUTE AS LOGIN = '" + impersonate + "';SELECT USER_NAME();"));
+
+                //Console.Out.WriteLine("\n[+]   ~~before imp- guest imp:");
+                //Console.Out.WriteLine("\n[+] Logged in as: " + sqlQuery.ExecuteQuery(con, "use msdb; EXECUTE AS USER = 'guest';  SELECT SYSTEM_USER ; "));
+                // Console.Out.WriteLine("\n[+] Logged in as: " + sqlQuery.ExecuteQuery(con, "use msdb; EXECUTE AS USER = 'guest';  SELECT USER_NAME(); "));
+
+
+                Console.Out.WriteLine("\n[+]  ~ after imp- dbo in msdb imp:");
+                Console.Out.WriteLine("\n[+] Logged in as: " + sqlQuery.ExecuteQuery(con, "use msdb; EXECUTE AS USER = 'dbo';  SELECT SYSTEM_USER ; "));
+                Console.Out.WriteLine("\n[+] ~login mapd as user: " + sqlQuery.ExecuteQuery(con, "use msdb; EXECUTE AS USER = 'dbo';  SELECT USER_NAME(); "));
+
+
+                Console.Out.WriteLine("\n[+] Roles: ");
+                Roles RolesX = new Roles();
+                //RolesX.Impersonate(con, "public", impersonate);
+                //RolesX.Impersonate(con, "sysadmin", impersonate);
+                RolesX.YImpersonate(con, "public");
+                RolesX.YImpersonate(con, "sysadmin");
+
+            }
+
             // iquery
             else if (module.Equals("iquery"))
             {
